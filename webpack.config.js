@@ -3,26 +3,26 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+
 module.exports = {
     // context: path.resolve(__dirname,'../'),
     entry: {
-        app:path.join(__dirname,'/src/index/main.js'),
-        login:path.join(__dirname,'/src/login/login.js'),
-        register:path.join(__dirname,'/src/register/register.js')
+        app:path.join(__dirname,'/src/main/main.js'),
+        admin:path.join(__dirname,'/src/admin/admin.js')
     },
     // entry:path.join(__dirname,'/src/main.js'),
     output: {
-        filename: "[name].bundle.js",
+        filename: "js/[name].bundle.js",
         path: path.join(__dirname,'./dist')
     },
     devServer: {
-        contentBase: '/',
-        // publicPath:'/src/login',
+        //contentBase: '/',
+        publicPath:'/',
         open: true,
         port: 3002,
         hot: true,
-        openPage:"login.html",
-        index:"login.html",
+        openPage:"main",
+        index:"index.html",
         proxy: {
             '/api': {
                 target: 'http://localhost:3000',
@@ -36,22 +36,16 @@ module.exports = {
     plugins: [//所有webpack插件的配置节点
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname,'src/index/index.html'),
-            filename: 'index.html',
+            template: path.join(__dirname,'src/main/index.html'),
+            filename: 'main/index.html',
             inject: true,
             chunks: ['app']
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname,'src/login/login.html'),
-            filename: 'login.html',
+            template: path.join(__dirname,'src/admin/index.html'),
+            filename: 'admin/index.html',
             inject: true,
-            chunks: ['login']
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname,'src/register/register.html'),
-            filename: 'register.html',
-            inject: true,
-            chunks: ['register']
+            chunks: ['admin']
         }),
         //使vue组件使用下面配置的匹配规则的插件
         new VueLoaderPlugin(),
@@ -105,7 +99,7 @@ module.exports = {
     resolve: {
         //设置vue被导入时候包的路径
         alias: {
-          "vue$": "vue/dist/vue.js"
+            "vue$": "vue/dist/vue.js"
         }
     }
 };
